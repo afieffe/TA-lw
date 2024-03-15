@@ -13,7 +13,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Create build dir
-        run: mkdir build/package/
+        run: mkdir -p build/package/
       - name: Compress archive
         run : tar -czvf build/package/TA-lw.spl * --transform='s,^,/TA-lw/,'
       - name: Test Archive
