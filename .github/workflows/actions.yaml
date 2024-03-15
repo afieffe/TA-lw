@@ -10,6 +10,8 @@ jobs:
   appinspect-job:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
       - name: Compress archive
         run : tar -czvf TA-lw.spl * --transform='s,^,/TA-lw/,'
       - uses: splunk/appinspect-api-action@v3.0
