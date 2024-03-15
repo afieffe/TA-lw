@@ -25,3 +25,7 @@ jobs:
           app_path: build/package/
           included_tags: "cloud,self-service"
           excluded_tags: "offensive"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appinspect-report
+          path: AppInspect_response.html
