@@ -18,6 +18,6 @@ jobs:
         with:
           username: ${{ secrets.SPL_COM_USER }}
           password: ${{ secrets.SPL_COM_PASSWORD }}
-          app_path: ./TA-lw.spl
+          app_path: ./
           included_tags: "cloud,self-service"
           excluded_tags: "offensive"
