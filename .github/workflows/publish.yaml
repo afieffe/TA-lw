@@ -14,7 +14,7 @@ jobs:
       - name: Create build dir
         run: mkdir -p build/package/
       - name: Extraction version
-        run: echo ${{ github.ref }} | sed -e 's/^v//"
+        run: echo ${{ github.ref }} | sed -e 's/^v//'
       - name: Compress archive
         run : tar --exclude "build" --exclude "README.md" -czvf build/package/TA-lw.spl * --transform='s,^,TA-lw/,'
       - name: Initialize Release
