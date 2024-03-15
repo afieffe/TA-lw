@@ -16,7 +16,7 @@ jobs:
       - name: Extraction version
         run: echo ${{ github.ref }} | sed -e 's/^v//'
       - name: Compress archive
-        run : tar --exclude "ta-lw-package" --exclude "README.md" -czvf build/package/TA-lw.spl * --transform='s,^,TA-lw/,'
+        run : tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw.spl * --transform='s,^,TA-lw/,'
       - name: Initialize Release
         uses: actions/create-release@v1
         id: create_release
