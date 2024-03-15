@@ -1,0 +1,56 @@
+
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+
+[views]
+access = read : [ * ], write : [ admin ]
+export = none
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-lw%23configs%2Fconf-ta_lw_settings%3Aadditional_parameters%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 9.0.1
+modtime = 1696489292.761585000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-lw%23configs%2Fconf-ta_lw_settings%3Aadditional_parameters%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 9.0.1
+modtime = 1696489292.801334000
+
+[ta_lw_settings/additional_parameters]
+version = 9.0.1
+modtime = 1696489292.818597000
+
+[collections/TA_lw_checkpointer]
+owner = splunk-system-user
+version = 9.0.1
+modtime = 1680600922.487783000
+
+[props/lw%3Aalerts]
+owner = admin
+version = 9.0.1
+modtime = 1680611090.221788000
+
+[props/lw%3Areport%3Acompliance]
+owner = admin
+version = 9.0.1
+modtime = 1681472655.025322000
+
+[inputs/compliance_report%3A%2F%2Flw1]
+owner = admin
+version = 9.0.1
+modtime = 1697713996.034266000
+
+[inputs/compliance_report%3A%2F%2Fcis_aws]
+owner = admin
+version = 9.0.1
+modtime = 1697713988.969038000
+
+[props/lw%3Aaudit]
+owner = admin
+version = 9.0.1
+modtime = 1702027887.079792000
+
+[inputs/audit_logs%3A%2F%2Faudit]
+owner = admin
+version = 9.0.1
+modtime = 1702028891.482541000
