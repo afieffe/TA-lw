@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-      - uses: splunk/appinspect-api-action@v3.0
-        with:
-          username: ${{ secrets.SPL_COM_USER }}
-          password: ${{ secrets.SPL_COM_PASSWORD }}
-          app_path: ./
-          included_tags: "cloud,self-service"
-          excluded_tags: "offensive"
+      - name: Compress archive
+        run : tar -czvf TA-lw.spl * --transform='s,^,/TA-lw/,'
+      - name: install appinspect
+        run : pip install splunk-appinspect
+      - name: Inspect App
+        run : splunk-appinspect inspect TA-lw.spl
+
