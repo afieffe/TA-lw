@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Compress archive
-        run : tar -czvf TA-lw.spl * --transform='s,^,/TA-lw/'
+        run : tar -czvf TA-lw.spl * --transform='s,^,/TA-lw/,'
       - uses: splunk/appinspect-api-action@v3.0
         with:
           username: ${{ secrets.SPL_COM_USER }}
