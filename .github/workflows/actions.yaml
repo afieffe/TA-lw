@@ -15,7 +15,7 @@ jobs:
       - name: Create build dir
         run: mkdir -p build/package/
       - name: Compress archive
-        run : tar --exclude "build" -czvf build/package/TA-lw.spl * --transform='s,^,/TA-lw/,'
+        run : tar --exclude "build" -czvf build/package/TA-lw.spl * --transform='s,^,TA-lw/,'
       - name: Test Archive
         run: tar -tzvf build/package/TA-lw.spl
       - uses: splunk/appinspect-api-action@v3.0
