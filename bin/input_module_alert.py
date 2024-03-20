@@ -13,7 +13,7 @@ from operator import itemgetter
 current_time = datetime.now(timezone.utc)
 start_time = current_time - timedelta(hours=0, days=3)
 start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
-end_time = current_time 
+end_time = current_time
 end_time = end_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def validate_input(helper, definition):
@@ -32,9 +32,9 @@ def get_subaccount_list(lw_client):
         for sub_account in  data[0]['accounts']:
             if sub_account['accountName'] not in sub_accounts:
                 sub_accounts.append(sub_account['accountName'])
-    
+
     return sub_accounts
-    
+
 def get_alerts(lw_client,helper,ew,sub_account):
     opt_alerts_categories = helper.get_arg('alerts_categories')
     opt_alerts_details = helper.get_arg('alert_details')
@@ -45,7 +45,7 @@ def get_alerts(lw_client,helper,ew,sub_account):
             "startTime": start_time,
             "endTime": end_time
         },
-        
+
         }
     a=lw_client.alerts.search(json=query)
     for h in a:
@@ -53,13 +53,13 @@ def get_alerts(lw_client,helper,ew,sub_account):
     checkpoint_key=helper.get_input_stanza_names()+'-'+helper.get_global_setting("account")+'-'+sub_account
     checkpoint=helper.get_check_point(checkpoint_key)
     max_alert_id=checkpoint
-    
-    
+
+
     for alert in alerts:
         alert_details=opt_alerts_details.copy()
         if  alert['derivedFields']['sub_category'] in opt_alerts_categories and (checkpoint is None or int(alert['alertId']) >checkpoint):
             if (max_alert_id is None or int(alert['alertId']) > max_alert_id  ) : max_alert_id = alert['alertId']
-            
+
             if 'Details' in alert_details:
                 helper.log_debug(f'Getting details for alertId : {alert["alertId"]}')
                 alert=lw_client.alerts.get_details(alert['alertId'],'Details')['data']
@@ -69,21 +69,21 @@ def get_alerts(lw_client,helper,ew,sub_account):
                     details=lw_client.alerts.get_details(alert['alertId'],data)
                 except Exception:
                     details={ "results" : "Error" }
-                    
+
                 alert[data]=details
             event = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=dumps(alert), host=helper.get_global_setting("account")+'-'+sub_account)
             ew.write_event(event)
         else:
             helper.log_debug(f'Alerts catergory: {alert["derivedFields"]["sub_category"]} not in {opt_alerts_categories}')
             helper.log_debug(f'checkpoint : {checkpoint} and alertId: {int(alert["alertId"])}')
-                
+
 
     if (not max_alert_id is None) :
         helper.log_debug(f'Saving checkpoint {checkpoint_key} : {max_alert_id}')
         helper.save_check_point(checkpoint_key, max_alert_id)
     return alerts
-    
-    
+
+
 
 def collect_events(helper, ew):
     global_account = helper.get_global_setting("account")
@@ -92,7 +92,7 @@ def collect_events(helper, ew):
     global_key_secret = helper.get_global_setting("key_secret")
     input_org_level = helper.get_arg('org_level')
 
-    
+
     try:
         lw_client = LaceworkClient(
             account = global_account,
@@ -103,12 +103,12 @@ def collect_events(helper, ew):
     except Exception:
         helper.log_critical(f"Cannot connect to {global_account}")
         raise
-    
+
     helper.log_info('Getting sub-accounts')
     sub_accounts=get_subaccount_list(lw_client)
-    
+
     if input_org_level:
-        
+
         for sub_account in sub_accounts:
             helper.log_debug(f"Iterating subaccount {sub_account}")
             lw_client.set_subaccount(sub_account)
@@ -118,8 +118,8 @@ def collect_events(helper, ew):
             global_sub_account=global_account.split('.')[0]
         helper.log_debug(f"Iterating using current subaccount")
         get_alerts(lw_client,helper,ew,global_sub_account.lower())
-        
-    
+
+
     """Implement your data collection logic here
 
     # The following examples get the arguments of this input.
@@ -130,7 +130,7 @@ def collect_events(helper, ew):
     opt_alert_details = helper.get_arg('alert_details')
     # In single instance mode, to get arguments of a particular input, use
     opt_org_level = helper.get_arg('org_level', stanza_name)
-    
+
     opt_alert_details = helper.get_arg('alert_details', stanza_name)
 
     # get input type

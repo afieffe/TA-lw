@@ -105,10 +105,11 @@ def collect_events(helper, ew):
             lw_client.set_subaccount(sub_account)
             alerts=get_audit(lw_client,helper,ew,sub_account)
     else:
+        alerts = []
         if len(global_sub_account) == 0 :
             global_sub_account=global_account.split('.')[0]
         helper.log_debug(f"Iterating using current subaccount")
-        alerts=get_audit(lw_client,helper,ew,global_sub_account.lower())
+        alerts=alerts + get_audit(lw_client,helper,ew,global_sub_account.lower())
 
     for alert in alerts:
         event = helper.new_event(source=input_type, index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=dumps(alert),  host=global_account)

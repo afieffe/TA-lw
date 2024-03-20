@@ -13,10 +13,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Create build dir
         run: mkdir -p ta-lw-package/
+      - name: Update Version Number
+        run: |
+          old_str="X.Y.Z"
+          new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
+          sed -i "s/$old_str/$new_str/g" ./default/app.conf
+          cat ./default/app.conf
       - name: Extraction version
         run: echo ${{ github.ref }} | sed -e 's/^v//'
       - name: Compress archive
-        run : tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw.spl * --transform='s,^,TA-lw/,'
+        run : |
+          new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
+          echo "SPL_FILE=ta-lw-package/TA-lw-$new_str.spl" >> $GITHUB_ENV
+          tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl.spl * --transform='s,^,TA-lw/,'
       - name: Initialize Release
         uses: actions/create-release@v1
         id: create_release
