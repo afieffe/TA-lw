@@ -25,7 +25,7 @@ jobs:
         run : |
           new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
           echo "SPL_FILE=ta-lw-package/TA-lw-$new_str.spl" >> $GITHUB_ENV
-          tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl.spl * --transform='s,^,TA-lw/,'
+          tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl * --transform='s,^,TA-lw/,'
           ls -al ta-lw-package/
 
       - name: Initialize Release
