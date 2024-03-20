@@ -38,5 +38,5 @@ jobs:
         uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ta-lw-package/TA-lw.spl
+          file: ${{SPL_FILE}}
           release-url: ${{ steps.create_release.outputs.upload_url }}
