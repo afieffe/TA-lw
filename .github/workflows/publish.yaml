@@ -27,7 +27,7 @@ jobs:
           echo "SPL_FILE=ta-lw-package/TA-lw-$new_str.spl" >> $GITHUB_ENV
           tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl.spl * --transform='s,^,TA-lw/,'
           ls -al ta-lw-package/
-          echo $SPL_FILE
+
       - name: Initialize Release
         uses: actions/create-release@v1
         id: create_release
@@ -40,5 +40,5 @@ jobs:
         uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{SPL_FILE}}
+          file: ${{env.SPL_FILE}}
           release-url: ${{ steps.create_release.outputs.upload_url }}
