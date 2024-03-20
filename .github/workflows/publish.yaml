@@ -18,6 +18,7 @@ jobs:
           old_str="X.Y.Z"
           new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
           sed -i "s/$old_str/$new_str/g" ./default/app.conf
+          sed -i "s/$old_str/$new_str/g" app.manifest
           cat ./default/app.conf
       - name: Extraction version
         run: echo ${{ github.ref }} | sed -e 's/^v//'

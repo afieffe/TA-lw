@@ -99,17 +99,18 @@ def collect_events(helper, ew):
     sub_accounts=get_subaccount_list(lw_client)
 
     if input_org_level:
-
+        alerts=[]
         for sub_account in sub_accounts:
             helper.log_debug(f"Iterating subaccount {sub_account}")
             lw_client.set_subaccount(sub_account)
-            alerts=get_audit(lw_client,helper,ew,sub_account)
+            alerts=alerts + get_audit(lw_client,helper,ew,global_sub_account.lower())
+
     else:
         alerts = []
         if len(global_sub_account) == 0 :
             global_sub_account=global_account.split('.')[0]
         helper.log_debug(f"Iterating using current subaccount")
-        alerts=alerts + get_audit(lw_client,helper,ew,global_sub_account.lower())
+        alerts=get_audit(lw_client,helper,ew,global_sub_account.lower())
 
     for alert in alerts:
         event = helper.new_event(source=input_type, index=helper.get_output_index(), sourcetype=helper.get_sourcetype(), data=dumps(alert),  host=global_account)
