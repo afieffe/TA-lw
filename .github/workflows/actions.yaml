@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Pass Splunk Inspect
 on:
   push:
     branches: [ main ]
@@ -13,18 +13,25 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Create build dir
-        run: mkdir -p build/package/
+        run: mkdir -p ta-lw-package/
+      - name: Update Version Number
+        run: |
+          old_str="X.Y.Z"
+          new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
+          sed -i "s/$old_str/$new_str/g" ./default/app.conf
+          sed -i "s/$old_str/$new_str/g" app.manifest
+          cat ./default/app.conf
       - name: Compress archive
-        run : tar --exclude "build" -czvf build/package/TA-lw.spl * --transform='s,^,TA-lw/,'
-      - name: Test Archive
-        run: tar -tzvf build/package/TA-lw.spl
+        run : |
+          new_str=$(echo "${GITHUB_REF#refs/*/}" | tr -d "v")
+          echo "SPL_FILE=ta-lw-package/TA-lw-$new_str.spl" >> $GITHUB_ENV
+          tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl * --transform='s,^,TA-lw/,'
+          ls -al ta-lw-package/
       - uses: splunk/appinspect-api-action@v3.0
         with:
           username: ${{ secrets.SPL_COM_USER }}
           password: ${{ secrets.SPL_COM_PASSWORD }}
-          app_path: build/package/
-          included_tags: "cloud,self-service"
-          excluded_tags: "offensive"
+          app_path: ta-lw-package/
       - uses: actions/upload-artifact@v4
         with:
           name: appinspect-report
