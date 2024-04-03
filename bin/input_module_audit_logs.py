@@ -43,7 +43,7 @@ def get_audit(lw_client,helper,ew,sub_account):
     if (not checkpoint is None):
         start_time = checkpoint
         checkpoint = datetime.strptime(checkpoint,'%Y-%m-%dT%H:%M:%SZ')
-    helper.log_info("Checkpoint key:" + checkpoint )
+    helper.log_info("Checkpoint key:" + str(checkpoint) )
 
     alerts=[]
     helper.log_debug(f'Stanza Name:{helper.get_input_stanza_names()}')
