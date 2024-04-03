@@ -28,7 +28,11 @@ jobs:
           echo "SPL_FILE=ta-lw-package/TA-lw-$new_str.spl" >> $GITHUB_ENV
           tar --exclude "ta-lw-package" --exclude "README.md" -czvf ta-lw-package/TA-lw-$new_str.spl * --transform='s,^,TA-lw/,'
           ls -al ta-lw-package/
-
+      - uses: splunk/appinspect-api-action@v3.0
+        with:
+          username: ${{ secrets.SPL_COM_USER }}
+          password: ${{ secrets.SPL_COM_PASSWORD }}
+          app_path: ta-lw-package/
       - name: Initialize Release
         uses: actions/create-release@v1
         id: create_release
